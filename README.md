@@ -3,6 +3,36 @@ pevents
 
 A promising, prioritized event emitter. Attempts to follow Node's EventEmitter API as much as possible.
 
+## Why
+
+Because I've wanted a prioritized event emitter on multiple occasions. In order to ensure priority, you need to know when previous priority levels finish executing. Promises provide a clean and powerful way to extend the EventEmitter for listeners that need to do asynchronous activities to finish.
+
+## Specs
+
+* Should operate as a drop-in replacement to Node's EventEmitter class
+* Provide A+ promises
+* Expect A+ promises or values in listeners
+
+## Edge cases
+
+Now that we're going from finishing a priority level to the next level, we have some interesting cases.
+
+### race condition to once
+
+* several event handlers are set on "test" with high priority
+* one event handler set to execute once on "test" with normal priority
+* event "test" happens, and because of the data with test takes a while to process
+* second event "test" happens, and because of data with test takes a short time to process
+* even though the second event "test" made it to the normal priority handlers before the first "test" event it does not fire the normal once handler
+* the first "test" event triggers the once normal handler (even though the second "test" event has already finished propagating through the event chain)
+
+### race condition to removeListener
+
+* several event handlers are set on "test" with high priority
+* one event handler set on "test" with normal priority
+* event "test" occurs but takes time to finish the high-priority handlers
+* the normal priority event handler is removed with removeListener
+* event "test" fires on normal priority handler because the event was triggered at the time the handler was valid
 
 ## Class: pevents.EventEmitter
 
@@ -38,6 +68,8 @@ emitter.on('submit', function(data) {
 console.log('emitting submit event')
 emitter.emit('submit', {value: 'value'}).then(function() {
   console.log('done handling submit event')
+}, function(reason) {
+  console.error('something went wrong', reason)
 })
 ```
 
