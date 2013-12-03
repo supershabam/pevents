@@ -5,7 +5,7 @@ A promising, prioritized event emitter. Attempts to follow Node's EventEmitter A
 
 ## Why
 
-Because I've wanted a prioritized event emitter on multiple occasions. In order to ensure priority, you need to know when previous priority levels finish executing and promises provide an easy way to extend the EventEmitter for listeners that need to do asynchronous activities to finish.
+Because I've wanted a prioritized event emitter on multiple occasions. In order to ensure priority, you need to know when previous priority levels finish executing. Promises provide a clean and powerful way to extend the EventEmitter for listeners that need to do asynchronous activities to finish.
 
 ## Specs
 
