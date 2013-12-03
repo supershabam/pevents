@@ -13,6 +13,19 @@ Because I've wanted a prioritized event emitter on multiple occasions. In order 
 * Provide A+ promises
 * Expect A+ promises or values in listeners
 
+## Edge cases
+
+Now that we're going from finishing a priority level to the next level, we have some interesting cases.
+
+### race condition to once
+
+* several event handlers are set on "test" with high priority
+* one event handler set to execute once on "test" with normal priority
+* event "test" happens, and because of the data with test takes a while to process
+* second event "test" happens, and because of data with test takes a short time to process
+* even though the second event "test" made it to the normal priority handlers before the first "test" event it does not fire the normal once handler
+* the first "test" event triggers the once normal handler (even though the second "test" event has already finished propagating through the event chain)
+
 ## Class: pevents.EventEmitter
 
 ### emitter.addListener([priority = 0], event, promising_listener)
