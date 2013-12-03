@@ -58,7 +58,9 @@ exports.unique_events = function(listeners) {
 exports.walk = function(listeners, args) {
   var grouped_listeners = exports.group_listeners(listeners.sort(exports.sort_priority))
   return L.reduce(grouped_listeners, function(memo, listener_group) {
-    return memo.then(Q.all(L.map(listener_group, exports.handle(args))))
+    return memo.then(function() {
+      return Q.all(L.map(listener_group, exports.handle(args)))
+    })
   }, Q())
 }
 
