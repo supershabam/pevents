@@ -26,6 +26,14 @@ Now that we're going from finishing a priority level to the next level, we have 
 * even though the second event "test" made it to the normal priority handlers before the first "test" event it does not fire the normal once handler
 * the first "test" event triggers the once normal handler (even though the second "test" event has already finished propagating through the event chain)
 
+### race condition to removeListener
+
+* several event handlers are set on "test" with high priority
+* one event handler set on "test" with normal priority
+* event "test" occurs but takes time to finish the high-priority handlers
+* the normal priority event handler is removed with removeListener
+* event "test" fires on normal priority handler because the event was triggered at the time the handler was valid
+
 ## Class: pevents.EventEmitter
 
 ### emitter.addListener([priority = 0], event, promising_listener)
