@@ -38,7 +38,7 @@ EventEmitter.prototype.emit = function(evnt) {
     } 
   }
 
-  return helper.walk(chain, evnt, args)
+  return helper.walk(chain, args)
 }
 
 EventEmitter.prototype.listeners = function(evnt) {
@@ -82,7 +82,7 @@ EventEmitter.prototype.removeAllListeners = function(evnt) {
   if (arguments.length === 0) {
     L.each(
       L.without(
-        L.reduce(this._listeners, helper.unique_listeners, []),
+        helpers.unique_events(this._listeners),
         'removeListener'
       ).append('removeListener'),
       self.removeAllListeners.bind(self)
