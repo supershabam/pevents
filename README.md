@@ -52,6 +52,9 @@ emitter.on(-100, 'submit', function(data) {
 
 emitter.on('submit', function(data) {
   console.log('executing normal-priority handler 1')
+  return Q.delay(500).then(function() {
+    console.log('done executing normal-priority handler 1')
+  })
 })
 
 emitter.on(100, 'submit', function(data) {
@@ -81,6 +84,7 @@ The output of the above example would be:
 // done executing high-priority handler
 // executing normal-priority handler 1
 // executing normal-priority handler 2
+// done executing normal-priority handler 1
 // executing low-priority handler
 // done handling submit event
 ```
