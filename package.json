@@ -1,0 +1,24 @@
+{
+  "name": "pevents",
+  "version": "0.0.0",
+  "description": "A prioritized, promising EventEmitter",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/supershabam/pevents"
+  },
+  "keywords": [
+    "events",
+    "EventEmitter",
+    "promise",
+    "priority"
+  ],
+  "author": "Ian Hansen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/supershabam/pevents/issues"
+  }
+}
