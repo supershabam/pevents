@@ -17,7 +17,8 @@ exports.filter_priority = function(priority) {
 exports.handle = function(args) {
   return function(listener) {
     return Q().then(function() {
-      listener.listener.apply(null, args)
+      console.log('listener', listener, args)
+      return listener.listener.apply(null, args)
     })
   }
 }
