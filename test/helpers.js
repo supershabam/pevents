@@ -111,9 +111,8 @@ test('one item walk', function(t) {
 })
 
 test('delayed walk', function(t) {
-  t.plan(8)
+  t.plan(12)
 
-  var count = 0
   var start = Date.now()
   var listeners = [
     {
@@ -122,9 +121,8 @@ test('delayed walk', function(t) {
       listener : function(arg1, arg2) {
         t.equal(arg1, 'arg1')
         t.equal(arg2, 'arg2')
-        t.equal(count, 1)
         t.ok(Date.now() - start >= 50, 'waits for previous listener to finish')
-        count = count + 1
+        return Q.delay(100)
       },
       type     : 'on'
     },
@@ -134,8 +132,28 @@ test('delayed walk', function(t) {
       listener : function(arg1, arg2) {
         t.equal(arg1, 'arg1')
         t.equal(arg2, 'arg2')
-        t.equal(count, 0)
-        count = count + 1
+        return Q.delay(50)
+      },
+      type     : 'on'
+    },
+    {
+      evnt     : 'test',
+      priority : 0,
+      listener : function(arg1, arg2) {
+        t.equal(arg1, 'arg1')
+        t.equal(arg2, 'arg2')
+        t.ok(Date.now() - start >= 50, 'waits for previous listener to finish')
+        return Q.delay(50)
+      },
+      type     : 'on'
+    },
+    {
+      evnt     : 'test',
+      priority : -10,
+      listener : function(arg1, arg2) {
+        t.equal(arg1, 'arg1')
+        t.equal(arg2, 'arg2')
+        t.ok(Date.now() - start >= 150, 'waits for previous listener to finish')
         return Q.delay(50)
       },
       type     : 'on'
