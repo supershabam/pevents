@@ -3,6 +3,15 @@ pevents
 
 A promising, prioritized event emitter. Attempts to follow Node's EventEmitter API as much as possible.
 
+## Why
+
+Because I've wanted a prioritized event emitter on multiple occasions. In order to ensure priority, you need to know when previous priority levels finish executing and promises provide an easy way to extend the EventEmitter for listeners that need to do asynchronous activities to finish.
+
+## Specs
+
+* Should operate as a drop-in replacement to Node's EventEmitter class
+* Provide A+ promises
+* Expect A+ promises or values in listeners
 
 ## Class: pevents.EventEmitter
 
@@ -38,6 +47,8 @@ emitter.on('submit', function(data) {
 console.log('emitting submit event')
 emitter.emit('submit', {value: 'value'}).then(function() {
   console.log('done handling submit event')
+}, function(reason) {
+  console.error('something went wrong', reason)
 })
 ```
 
