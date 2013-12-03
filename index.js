@@ -22,10 +22,7 @@ EventEmitter.prototype.addListener = EventEmitter.prototype.on
 
 EventEmitter.prototype.emit = function(evnt) {
   var args  = Array.prototype.slice.call(arguments, 0)
-  var chain = sort(
-    L.filter(this._listeners, helper.match_evnt(evnt)),
-    helper.sort_priority
-  )
+  var chain = L.filter(this._listeners, helper.match_evnt(evnt)).sort(helper.sort_priority)
   this._listeners = L.filter(this._listeners, helper.filter_once(evnt))
 
   // unhandled error event
