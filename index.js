@@ -1,5 +1,5 @@
-var helper = require('./helper')
-  , L      = require('lodash')
+var helpers = require('./helpers')
+  , L       = require('lodash')
 
 
 function EventEmitter() {
