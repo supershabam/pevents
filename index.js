@@ -1,6 +1,5 @@
 var helper = require('./helper')
   , L      = require('lodash')
-  , util   = require('util')
 
 
 function EventEmitter() {
@@ -22,7 +21,7 @@ EventEmitter.EventEmitter = EventEmitter
 EventEmitter.prototype.addListener = EventEmitter.prototype.on
 
 EventEmitter.prototype.emit = function(evnt) {
-  var args  = Array.prototype.slice.call(args)
+  var args  = Array.prototype.slice.call(arguments, 0)
   var chain = sort(
     L.filter(this._listeners, helper.match_evnt(evnt)),
     helper.sort_priority
@@ -62,7 +61,7 @@ EventEmitter.prototype.removeListener = function(evnt, listener) {
   if ('string' !== typeof evnt) {
     throw new TypeError('event must be a string')
   }
-  if (!util.isFunction(listener)) {
+  if (!L.isFunction(listener)) {
     throw new TypeError('listener must be a function')
   }
 
@@ -111,7 +110,7 @@ EventEmitter.prototype.setMaxListeners = function(n) {
 EventEmitter.prototype._addListener = function(priority, evnt, listener, type) {
   var self = this
 
-  if (util.isFunction(evnt)) {
+  if (L.isFunction(evnt)) {
     listener = evnt
     evnt     = priority
     priority = 0
@@ -122,7 +121,7 @@ EventEmitter.prototype._addListener = function(priority, evnt, listener, type) {
   if ('string' !== typeof evnt) {
     throw new TypeError('event must be a string')
   }
-  if (!util.isFunction(listener)) {
+  if (!L.isFunction(listener)) {
     throw new TypeError('listener must be a function')
   }
 
