@@ -44,12 +44,20 @@ EventEmitter.prototype.listeners = function(evnt) {
   )
 }
 
-EventEmitter.prototype.on = function(priority, evnt, listener) {
-  return this._addListener(priority, evnt, listener, 'on')
+EventEmitter.prototype.on = function(evnt, priority, listener) {
+  if (L.isFunction(priority)) {
+    listener = priority
+    priority = 0
+  }
+  return this._addListener(evnt, priority, listener, 'on')
 }
 
-EventEmitter.prototype.once = function(priority, evnt, listener) {
-  return this._addListener(priority, evnt, listener, 'once')
+EventEmitter.prototype.once = function(evnt, priority, listener) {
+  if (L.isFunction(priority)) {
+    listener = priority
+    priority = 0
+  }
+  return this._addListener(evnt, priority, listener, 'once')
 }
 
 EventEmitter.prototype.removeListener = function(evnt, listener) {
@@ -95,7 +103,6 @@ EventEmitter.prototype.removeAllListeners = function(evnt) {
   return this
 }
 
-
 EventEmitter.prototype.setMaxListeners = function(n) {
   if (n % 1 !== 0 || n < 0) {
     throw new TypeError('n must be a positive integer')
@@ -104,19 +111,14 @@ EventEmitter.prototype.setMaxListeners = function(n) {
   return this
 }
 
-EventEmitter.prototype._addListener = function(priority, evnt, listener, type) {
+EventEmitter.prototype._addListener = function(evnt, priority, listener, type) {
   var self = this
 
-  if (L.isFunction(evnt)) {
-    listener = evnt
-    evnt     = priority
-    priority = 0
+  if ('string' !== typeof evnt) {
+    throw new TypeError('event must be a string')
   }
   if (priority % 1 !== 0) {
     throw new TypeError('priority must be an integer')
-  }
-  if ('string' !== typeof evnt) {
-    throw new TypeError('event must be a string')
   }
   if (!L.isFunction(listener)) {
     throw new TypeError('listener must be a function')

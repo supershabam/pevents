@@ -36,8 +36,8 @@ Now that we're going from finishing a priority level to the next level, we have 
 
 ## Class: pevents.EventEmitter
 
-### emitter.addListener([priority = 0], event, promising_listener)
-### emitter.on([priority = 0], event, promising_listener)
+### emitter.addListener(event, [priority = 0], promising_listener)
+### emitter.on(event, [priority = 0], promising_listener)
 
 Priority is by default set to zero. Larger integers indicate higher priority, and priority may be both positive and negative.
 
@@ -46,7 +46,7 @@ The promising_listener is a function to be executed when an event is emitted. Th
 Listeners with the same priority are executed in parallel, but listeners of differing priority are executed from highest to lowest priority in series.
 
 ```javascript
-emitter.on(-100, 'submit', function(data) {
+emitter.on('submit', -100, function(data) {
   console.log('executing low-priority handler')
 })
 
@@ -57,7 +57,7 @@ emitter.on('submit', function(data) {
   })
 })
 
-emitter.on(100, 'submit', function(data) {
+emitter.on('submit', 100, function(data) {
   console.log('executing high-priority handler')
   return Q.delay(500).then(function() {
     console.log('done executing high-priority handler')
